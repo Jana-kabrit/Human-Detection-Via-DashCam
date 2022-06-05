@@ -2,11 +2,12 @@ import cv2
 import mediapipe as mp
 mp_drawing = mp.solutions.drawing_utils
 mp_pose = mp.solutions.pose
+mp_holistic = mp.solutions.holistic
 
 # For static images:
 with mp_pose.Pose(
         static_image_mode=True, min_detection_confidence=0.5) as pose:
-    for idx, file in enumerate('/Users/jana/Documents/GitHub/AS2-MLC-Project/images'):
+    for idx, file in enumerate(['/Users/HCES/Downloads/bdd100k/images/10k/sample/original.jpg']):
         image = cv2.imread(file)
         image_height, image_width, _ = image.shape
         # Convert the BGR image to RGB before processing.
@@ -25,8 +26,9 @@ with mp_pose.Pose(
         # upper_body_only is set to True.
         mp_drawing.draw_landmarks(
             annotated_image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
-        cv2.imwrite('/tmp/annotated_image' +
-                    str(idx) + '.png', annotated_image)
+        cv2.imwrite('/Users/HCES/Downloads/bdd100k/images/10k/sample/annotated_image' + str(idx) + '.png', annotated_image)
+        print('Success!')
+        
 '''
 # For webcam input:
 cap = cv2.VideoCapture(0)

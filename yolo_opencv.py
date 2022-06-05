@@ -1,23 +1,16 @@
-#############################################
-# Object detection - YOLO - OpenCV
-# Author : Arun Ponnusamy   (July 16, 2018)
-# Website : http://www.arunponnusamy.com
-############################################
-
-
 import cv2
 import argparse
 import numpy as np
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=False,
-                help='path to input image', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/sample/original.jpg')
+                help='path to input image', default='sample/original.jpg')
 ap.add_argument('-c', '--config', required=False,
-                help='path to yolo config file', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.cfg')
+                help='path to yolo config file', default='yolov3.cfg')
 ap.add_argument('-w', '--weights', required=False,
-                help='path to yolo pre-trained weights', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.weights')
+                help='path to yolo pre-trained weights', default='yolov3.weights')
 ap.add_argument('-cl', '--classes', required=False,
-                help='path to text file containing class names', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.txt')
+                help='path to text file containing class names', default='yolov3.txt')
 args = ap.parse_args()
 
 def get_output_layers(net):
@@ -48,19 +41,14 @@ with open(args.classes, 'r') as f:
 COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
 
 net = cv2.dnn.readNet(args.weights, args.config)
-
 blob = cv2.dnn.blobFromImage(image, scale, (416,416), (0,0,0), True, crop=False)
-
 net.setInput(blob)
-
 outs = net.forward(get_output_layers(net))
-
 class_ids = []
 confidences = []
 boxes = []
 conf_threshold = 0.5
 nms_threshold = 0.4
-
 
 for out in outs:
     for detection in out:
@@ -78,7 +66,6 @@ for out in outs:
             confidences.append(float(confidence))
             boxes.append([x, y, w, h])
 
-
 indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
 
 for i in indices:
@@ -92,5 +79,5 @@ for i in indices:
 cv2.imshow("object detection", image)
 cv2.waitKey()
     
-cv2.imwrite("/Users/HCES/Documents/GitHub/AS2-MLC-Project/sample/yolo.jpg", image)
+cv2.imwrite("sample/yolo.jpg", image)
 cv2.destroyAllWindows()

@@ -40,4 +40,4 @@ def pose_mediapipe(image, segmentation):
 image_in = gr.inputs.Image(label='Input Image')
 checkbox_in = gr.inputs.Checkbox(label='Enable Segmentation')
 app = gr.Interface(fn=pose_mediapipe, inputs=[image_in, checkbox_in], outputs='image')
-app.launch(share=True)
+app.launch()

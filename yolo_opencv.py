@@ -11,14 +11,14 @@ import numpy as np
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=True,
-                help='path to input image', default='/Users/jana/Documents/GitHub/AS2-MLC-Project/sample/original.jpg')
+                help='path to input image', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/sample/original.jpg')
 ap.add_argument('-c', '--config', required=True,
-                help='path to yolo config file', default='/Users/jana/Documents/GitHub/AS2-MLC-Project/yolov3.cfg')
+                help='path to yolo config file', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.cfg')
 ap.add_argument('-w', '--weights', required=True,
-                help='path to yolo pre-trained weights', default='/Users/jana/Documents/GitHub/AS2-MLC-Project/yolov3.weights')
+                help='path to yolo pre-trained weights', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.weights')
 ap.add_argument('-cl', '--classes', required=True,
-                help='path to text file containing class names', default='/Users/jana/Documents/GitHub/AS2-MLC-Project/yolov3.txt')
-#args = ap.parse_args()
+                help='path to text file containing class names', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.txt')
+args = ap.parse_args()
 
 
 def get_output_layers(net):

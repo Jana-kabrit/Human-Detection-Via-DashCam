@@ -1,5 +1,3 @@
 gradio
 mediapipe
 numpy
-cv2
-pickle

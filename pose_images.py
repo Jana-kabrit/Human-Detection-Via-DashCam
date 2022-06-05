@@ -7,10 +7,11 @@ mp_pose = mp.solutions.pose
 
 IMAGE_FILES = ['/Users/HCES/Downloads/bdd100k/images/10k/sample/original.jpg']
 BG_COLOR = (192, 192, 192) # gray
+segmentation = False
 with mp_pose.Pose(
     static_image_mode=True,
     model_complexity=2,
-    enable_segmentation=True,
+    enable_segmentation=segmentation,
     min_detection_confidence=0.5) as pose:
   for idx, file in enumerate(IMAGE_FILES):
     image = cv2.imread(file)
@@ -30,10 +31,11 @@ with mp_pose.Pose(
     # Draw segmentation on the image.
     # To improve segmentation around boundaries, consider applying a joint
     # bilateral filter to "results.segmentation_mask" with "image".
-    condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.1
-    bg_image = np.zeros(image.shape, dtype=np.uint8)
-    bg_image[:] = BG_COLOR
-    annotated_image = np.where(condition, annotated_image, bg_image)
+    if segmentation:
+          condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.1
+          bg_image = np.zeros(image.shape, dtype=np.uint8)
+          bg_image[:] = BG_COLOR
+          annotated_image = np.where(condition, annotated_image, bg_image)
     # Draw pose landmarks on the image.
     mp_drawing.draw_landmarks(
         annotated_image,

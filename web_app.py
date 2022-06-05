@@ -79,8 +79,6 @@ def pose_mediapipe(image, segmentation):
         results = pose.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         annotated_image = image.copy()
         # Draw segmentation on the image.
-        # To improve segmentation around boundaries, consider applying a joint
-        # bilateral filter to "results.segmentation_mask" with "image".
         if segmentation:
             condition = np.stack((results.segmentation_mask,) * 3, axis=-1) > 0.1
             bg_image = np.zeros(image.shape, dtype=np.uint8)

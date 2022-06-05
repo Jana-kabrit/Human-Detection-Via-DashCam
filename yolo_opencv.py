@@ -10,39 +10,30 @@ import argparse
 import numpy as np
 
 ap = argparse.ArgumentParser()
-ap.add_argument('-i', '--image', required=True,
+ap.add_argument('-i', '--image', required=False,
                 help='path to input image', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/sample/original.jpg')
-ap.add_argument('-c', '--config', required=True,
+ap.add_argument('-c', '--config', required=False,
                 help='path to yolo config file', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.cfg')
-ap.add_argument('-w', '--weights', required=True,
+ap.add_argument('-w', '--weights', required=False,
                 help='path to yolo pre-trained weights', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.weights')
-ap.add_argument('-cl', '--classes', required=True,
+ap.add_argument('-cl', '--classes', required=False,
                 help='path to text file containing class names', default='/Users/HCES/Documents/GitHub/AS2-MLC-Project/yolov3.txt')
 args = ap.parse_args()
 
-
 def get_output_layers(net):
-
+    
     layer_names = net.getLayerNames()
-
-    output_layers = [layer_names[i[0] - 1]
-                     for i in net.getUnconnectedOutLayers()]
-
+    output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
     return output_layers
 
 
 def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
-
     label = str(classes[class_id])
-
     color = COLORS[class_id]
+    cv2.rectangle(img, (x,y), (x_plus_w,y_plus_h), color, 2)
+    cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-    cv2.rectangle(img, (x, y), (x_plus_w, y_plus_h), color, 2)
-
-    cv2.putText(img, label, (x-10, y-10),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-
-
+    
 image = cv2.imread(args.image)
 
 Width = image.shape[1]
@@ -58,8 +49,7 @@ COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
 
 net = cv2.dnn.readNet(args.weights, args.config)
 
-blob = cv2.dnn.blobFromImage(
-    image, scale, (416, 416), (0, 0, 0), True, crop=False)
+blob = cv2.dnn.blobFromImage(image, scale, (416,416), (0,0,0), True, crop=False)
 
 net.setInput(blob)
 
@@ -92,17 +82,15 @@ for out in outs:
 indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
 
 for i in indices:
-    i = i[0]
     box = boxes[i]
     x = box[0]
     y = box[1]
     w = box[2]
     h = box[3]
-    draw_prediction(image, class_ids[i], confidences[i], round(
-        x), round(y), round(x+w), round(y+h))
+    draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
 
 cv2.imshow("object detection", image)
 cv2.waitKey()
-
-cv2.imwrite("object-detection.jpg", image)
+    
+cv2.imwrite("/Users/HCES/Documents/GitHub/AS2-MLC-Project/sample/yolo.jpg", image)
 cv2.destroyAllWindows()

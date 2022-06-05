@@ -115,4 +115,4 @@ while cv2.waitKey(1) < 0:
     cv2.imshow("object detection", image)
 
 cv2.destroyAllWindows()
-fvs.stop()
+# fvs.stop()

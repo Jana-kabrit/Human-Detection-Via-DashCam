@@ -14,8 +14,8 @@ import os
 
 
 print('Initializing')
-input_file = '/content/posenet-python/video.avi'
-output_file = '/content/posenet-python/output.mp4'
+input_file = '/Users/HCES/Downloads/bdd100k/images/10k/sample/original.mp4'
+output_file = '/Users/HCES/Downloads/bdd100k/images/10k/sample/posenet.mp4'
 
 # Load input video files and
 cap = cv2.VideoCapture(input_file)
@@ -27,10 +27,10 @@ fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
 video = cv2.VideoWriter(output_file, fourcc, fps, (width, height))
 
 model = 101
-###scale_factor = 1.0
+# scale_factor = 1.0
 scale_factor = 0.4
 
-with tf.Session() as sess:
+with tf.compat.v1.Session() as sess:
     # Load PoseNet model
     model_cfg, model_outputs = posenet.load_model(model, sess)
     output_stride = model_cfg['output_stride']

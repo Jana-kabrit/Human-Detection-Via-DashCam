@@ -1,5 +1,42 @@
 # AS2-MLC-Project
 The aim is to create a probability-matrix / neural-network that can positively identify elements present within a captured video frame with a degree of accuracy by using pattern-matching techniques. The format of this frame will likely be uncompressed 24-bit RGB.
+
+## 👩‍💻 Authors
+
+- [@OussamaMatar](https://github.com/OussamaMatar)
+- [@Jana-kabrit](https://github.com/Jana-kabrit)
+
+
+## 🏃🏻‍♀️ Pipelines
+
+`image_pipeline.py` runs the analysis for a single image.
+`video_pipeline.py` runs the analysis for a video.
+
+## 🛠 Requirements
+
+### To download:
+- [ffmpeg](https://www.ffmpeg.org/download.html)
+
+#### Installation:
+
+**MAC**
+
+```bash
+pip3 install ffprobe
+```
+
+**WINDOWS**
+
+```bash
+pip install ffprobe
+```
+
+**LINUX**
+
+```bash
+pip install ffprobe
+
+
 ## 🚦 EDA.py
 
 In this file, we have 7 functions that are for exploring the videos and the data that we have. The table below explains what each function is by its input and output.

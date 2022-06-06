@@ -4,7 +4,7 @@ import mediapipe as mp
 import numpy as np
 
 # Bounding Box
-def box_yolo(image):
+def box_yolo(image, only_people):
     def get_output_layers(net):
         layer_names = net.getLayerNames()
         output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
@@ -52,13 +52,23 @@ def box_yolo(image):
                 boxes.append([x, y, w, h])
 
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
-    for i in indices:
-        box = boxes[i]
-        x = box[0]
-        y = box[1]
-        w = box[2]
-        h = box[3]
-        draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
+    if only_people:
+        for i in indices:
+            if class_ids[i] == 0:
+                box = boxes[i]
+                x = box[0]
+                y = box[1]
+                w = box[2]
+                h = box[3]
+                draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
+    else: 
+        for i in indices:
+            box = boxes[i]
+            x = box[0]
+            y = box[1]
+            w = box[2]
+            h = box[3]
+            draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
         
     return image
 
@@ -93,7 +103,7 @@ def pose_mediapipe(image, segmentation):
         return annotated_image
 
 # Both
-def both(image_):
+def both(image_, only_people):
     def get_output_layers(net):    
         layer_names = net.getLayerNames()
         output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
@@ -145,13 +155,23 @@ def both(image_):
 
     indices = cv2.dnn.NMSBoxes(boxes, confidences, conf_threshold, nms_threshold)
 
-    for i in indices:
-        box = boxes[i]
-        x = box[0]
-        y = box[1]
-        w = box[2]
-        h = box[3]
-        draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
+    if only_people:
+        for i in indices:
+            if class_ids[i] == 0:
+                box = boxes[i]
+                x = box[0]
+                y = box[1]
+                w = box[2]
+                h = box[3]
+                draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
+    else: 
+        for i in indices:
+            box = boxes[i]
+            x = box[0]
+            y = box[1]
+            w = box[2]
+            h = box[3]
+            draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
 
     mp_drawing = mp.solutions.drawing_utils
     mp_drawing_styles = mp.solutions.drawing_styles
@@ -177,19 +197,20 @@ def both(image_):
 
     return annotated_image
 
-def model_picker(image, model, segmentation):
+def model_picker(image, model, segmentation, only_people):
     if model == 0:
-        result = box_yolo(image)
+        result = box_yolo(image, only_people)
     elif model == 1:
         result = pose_mediapipe(image, segmentation)
     elif model == 2:
-        result = both(image)
+        result = both(image, only_people)
     return result
 
 image_in = gr.inputs.Image(label='Input Image')
 radio_in = gr.Radio(['Bounding Box', 'Pose Estimation', 'Both'], type='index', label='Model Type')
-checkbox_in = gr.inputs.Checkbox(label='Enable Segmentation (For Pose Estimation)')
-app = gr.Interface(fn=model_picker, inputs=[image_in, radio_in, checkbox_in], outputs='image')
+checkbox_1 = gr.inputs.Checkbox(label='Enable Segmentation (For Pose Estimation)')
+checkbox_2 = gr.inputs.Checkbox(label='Bound Only People in a Box')
+app = gr.Interface(fn=model_picker, inputs=[image_in, radio_in, checkbox_1, checkbox_2], outputs='image')
 
 #app.launch(share=True)
 app.launch()

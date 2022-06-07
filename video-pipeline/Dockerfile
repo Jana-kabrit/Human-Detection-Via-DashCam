@@ -1,15 +1,15 @@
-#Specifying the base image
-FROM python:3.10
-#here the dockerfile is pulling the python 3.10 from docker hub which already has python installed so we have all the things we need to have python in our container.
-WORKDIR /Users/jana/Documents/GitHub/AS2-MLC-Project/video-pipeline
+#Deriving the latest base image
+FROM python:latest
 
-ADD /yolo_video.py
-#Here we added the python file that we want to run in docker and define its location.
+WORKDIR /Users/HCES/Documents/GitHub/AS2-MLC-Project/app
 
-RUN pip install midapipe
-#Here we installed the dependencies, we are using the pygame library in our main.py file so we have to use the pip command for installing the library
+#to COPY the remote file at working directory in container
+COPY yolo_video.py ./
 
-CMD [ "python" "./yolo_video.py" ]
-#lastly we specified the entry command this line is simply running python ./main.py in our container terminal
+RUN apt-get update && apt-get install -y python3-opencv
+RUN pip install opencv-python
+RUN pip install numpy
+
+CMD [ "python", "./yolo_video.py"]
 
 EXPOSE 1234

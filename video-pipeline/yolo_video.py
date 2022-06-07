@@ -1,8 +1,7 @@
 import cv2
-import argparse
 import numpy as np
-import imutils
-from imutils.video import FileVideoStream
+#import imutils
+#from imutils.video import FileVideoStream
 
 
 def get_output_layers(net):
@@ -19,7 +18,7 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     cv2.putText(img, label, (x-10, y-10),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-video_path = 'sample/original_video.mp4'
+video_path = '/Users/HCES/Documents/GitHub/AS2-MLC-Project/app/original_video.mp4'
 
 # Connects to your computer's default camera
 cap = cv2.VideoCapture(video_path)
@@ -40,8 +39,8 @@ while cv2.waitKey(1) < 0:
     with open('yolov3.txt', 'r') as f:
         classes = [line.strip() for line in f.readlines()]
 
-    COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
-    # COLORS = np.ones((len(classes), 3)) 
+    # COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
+    COLORS = np.ones((len(classes), 3)) * [100, 0, 0]
     
     net = cv2.dnn.readNet('yolov3.weights', 'yolov3.cfg')
     blob = cv2.dnn.blobFromImage(
@@ -76,14 +75,13 @@ while cv2.waitKey(1) < 0:
         boxes, confidences, conf_threshold, nms_threshold)
 
     for i in indices:
-        i = i
-        box = boxes[i]
-        x = box[0]
-        y = box[1]
-        w = box[2]
-        h = box[3]
-        draw_prediction(image, class_ids[i], confidences[i], round(
-            x), round(y), round(x+w), round(y+h))
+        if class_ids[i] == 0:
+            box = boxes[i]
+            x = box[0]
+            y = box[1]
+            w = box[2]
+            h = box[3]
+            draw_prediction(image, class_ids[i], confidences[i], round(x), round(y), round(x+w), round(y+h))
 
     cv2.imshow("object detection", image)
 

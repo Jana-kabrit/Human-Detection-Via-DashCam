@@ -35,7 +35,7 @@ pip install ffprobe
 
 ```bash
 pip install ffprobe
-
+```
 
 ## 🚦 EDA.py
 

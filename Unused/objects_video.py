@@ -14,8 +14,6 @@ import torchvision.transforms as transforms
 from moviepy.editor import *
 from PIL import Image, ImageStat
 
-from general_utils import *
-
 os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 
 
@@ -46,3 +44,5 @@ def detect_objects(video_file, model, classes):
                 objects.append(classes[int(labels[index])])
         else:
             return set(objects)
+
+detect_objects('/Users/jana/Documents/GitHub/AS2-MLC-Project/Videos/example_video_1.mp4', model, classes)

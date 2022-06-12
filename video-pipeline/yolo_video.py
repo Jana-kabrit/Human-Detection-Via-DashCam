@@ -1,15 +1,11 @@
 import cv2
 import numpy as np
-#import imutils
-#from imutils.video import FileVideoStream
-
 
 def get_output_layers(net):
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i - 1]
                      for i in net.getUnconnectedOutLayers()]
     return output_layers
-
 
 def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     label = str(classes[class_id])
@@ -18,19 +14,13 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     cv2.putText(img, label, (x-10, y-10),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-video_path = '/Users/HCES/Documents/GitHub/AS2-MLC-Project/app/original_video.mp4'
+video_path = '/original_video.mp4'
 
-# Connects to your computer's default camera
 cap = cv2.VideoCapture(video_path)
-#fvs = FileVideoStream(video_path).start()
 while cv2.waitKey(1) < 0:
-    # while fvs.running():
-
     # Capture frame-by-frame
     ret, image = cap.read()
-    #image = cv2.imread(frame)
 
-    #image = fvs.read()
     Width = image.shape[1]
     Height = image.shape[0]
     scale = 0.00392

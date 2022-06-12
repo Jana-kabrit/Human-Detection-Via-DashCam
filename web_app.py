@@ -212,5 +212,5 @@ checkbox_1 = gr.inputs.Checkbox(label='Enable Segmentation (For Pose Estimation)
 checkbox_2 = gr.inputs.Checkbox(label='Bound Only People in a Box')
 app = gr.Interface(fn=model_picker, inputs=[image_in, radio_in, checkbox_1, checkbox_2], outputs='image')
 
-#app.launch(share=True)
+# app.launch(share=True)
 app.launch()

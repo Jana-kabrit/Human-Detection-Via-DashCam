@@ -13,7 +13,7 @@ def draw_prediction(img, class_id, confidence, x, y, x_plus_w, y_plus_h):
     cv2.rectangle(img, (x,y), (x_plus_w,y_plus_h), color, 2)
     cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-image_ = cv2.imread('sample/sample.jpg')
+image_ = cv2.imread('sample/sample_0.jpg')
 image = image_.copy()
 
 Width = image.shape[1]
@@ -87,5 +87,5 @@ with mp_pose.Pose(
 cv2.imshow("object detection", annotated_image)
 cv2.waitKey()
     
-cv2.imwrite("sample/sample_yolo_mediapipe.jpg", annotated_image)
+cv2.imwrite("sample/yolo_mediapipe_0.jpg", annotated_image)
 cv2.destroyAllWindows()

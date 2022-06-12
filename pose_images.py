@@ -5,7 +5,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_pose = mp.solutions.pose
 
-IMAGE_FILES = ['sample/sample.jpg']
+IMAGE_FILES = ['sample/sample_0.jpg']
 BG_COLOR = (192, 192, 192) # gray
 segmentation = False
 with mp_pose.Pose(
@@ -42,7 +42,7 @@ with mp_pose.Pose(
         results.pose_landmarks,
         mp_pose.POSE_CONNECTIONS,
         landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
-    cv2.imwrite('sample/annotated_sample' + '.png', annotated_image)
+    cv2.imwrite('sample/annotated_sample_0' + '.png', annotated_image)
     print('Success!')
     # Plot pose world landmarks.
     mp_drawing.plot_landmarks(

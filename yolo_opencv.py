@@ -4,7 +4,7 @@ import numpy as np
 
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=False,
-                help='path to input image', default='sample/original.jpg')
+                help='path to input image', default='sample/sample.jpg')
 ap.add_argument('-c', '--config', required=False,
                 help='path to yolo config file', default='yolov3.cfg')
 ap.add_argument('-w', '--weights', required=False,
@@ -80,5 +80,5 @@ for i in indices:
 cv2.imshow("object detection", image)
 cv2.waitKey()
     
-cv2.imwrite("sample/yolo2.jpg", image)
+cv2.imwrite("sample/sample_yolo2.jpg", image)
 cv2.destroyAllWindows()
